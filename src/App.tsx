@@ -1,15 +1,15 @@
 //import logo from './logo.svg';
 import React from 'react';
 import './assets/main.css';
-import InputAtom from './atoms/input-atom';
+import { TextInputComponent } from './components/text-input-component';
 import cardSort from './functions/card-sort';
 import { CardSortInterface } from './interfaces/card-sort-interface';
 
 function App() {
-  let cardNumberState = React.useState('1');
-  let cardCopiesState = React.useState('4');
-  let sheetRowsState = React.useState('3');
-  let sheetColumnsState = React.useState('3');
+  let cardNumberState = React.useState('');
+  let cardCopiesState = React.useState('');
+  let sheetRowsState = React.useState('');
+  let sheetColumnsState = React.useState('');
 
   let cardSortState = React.useState<CardSortInterface>({
     cardPlacement: 1,
@@ -25,10 +25,23 @@ function App() {
 
   return (
     <div className="App container mx-auto">
-      <InputAtom placeholder="Card Number" value={cardNumberState} /><br />
-      <InputAtom placeholder="Card Copies" value={cardCopiesState} /><br />
-      <InputAtom placeholder="Sheet Rows" value={sheetRowsState} /><br />
-      <InputAtom placeholder="Sheet Columns" value={sheetColumnsState} /><br />
+
+      <TextInputComponent 
+        labelProps={{text: 'Card Number'}}
+        inputProps={{placeholder: '1', value: cardNumberState}} />
+
+      <TextInputComponent
+        labelProps={{text: 'Card Copies'}}
+        inputProps={{placeholder: '1', value: cardCopiesState}}  />
+
+      <TextInputComponent
+        labelProps={{text: 'Sheet Rows'}}
+        inputProps={{placeholder: '1', value: sheetRowsState}}  />
+
+      <TextInputComponent
+        labelProps={{text: 'Sheet Columns'}}
+        inputProps={{placeholder: '1', value: sheetColumnsState}}  />
+
       Page number is {cardSortState[0].currentSheetNumber}<br />
       Placement in sheet is {cardSortState[0].cardPlacementInSheet}
     </div>
