@@ -1,13 +1,12 @@
 import React, { ChangeEvent } from 'react';
 
-interface InputProps {
-    placeholder?: string;
-    value?: [string, React.Dispatch<React.SetStateAction<string>>];
-}
-
 const onChangeSet = (props: InputProps) => (e: ChangeEvent<HTMLInputElement>) => {
     if (props.value) return props.value[1](e.target.value);
     return e;
+}
+export interface InputProps {
+    placeholder?: string;
+    value?: [string, React.Dispatch<React.SetStateAction<string>>];
 }
 
 export const inputAtom = (props: InputProps) => {
