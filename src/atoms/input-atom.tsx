@@ -9,7 +9,7 @@ export interface InputProps {
     value?: [string, React.Dispatch<React.SetStateAction<string>>];
 }
 
-export const inputAtom = (props: InputProps) => {
+export const InputAtom = (props: InputProps) => {
     return <input 
         placeholder={props.placeholder} 
         value={props.value ? props.value[0] : ''} 
@@ -17,4 +17,4 @@ export const inputAtom = (props: InputProps) => {
     />;
 }
 
-export default inputAtom;
+export default InputAtom;
