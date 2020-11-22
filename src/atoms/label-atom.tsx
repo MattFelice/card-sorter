@@ -6,7 +6,7 @@ export interface LabelProps {
 
 export const LabelAtom = (data?: LabelProps) => {
     if(data && data.text) {
-        return <div>{data.text}</div>;
+        return <div className='text-lg font-bold'>{data.text}</div>;
     }
 
     return undefined;

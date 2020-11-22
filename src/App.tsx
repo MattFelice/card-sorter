@@ -26,21 +26,31 @@ function App() {
   return (
     <div className="App container mx-auto">
 
-      <TextInputComponent 
+      <TextInputComponent
+        showBorder={true} 
         labelProps={{text: 'Card Number'}}
         inputProps={{placeholder: '1', value: cardNumberState}} />
 
       <TextInputComponent
-        labelProps={{text: 'Card Copies'}}
+        showBorder={true} 
+        labelProps={{text: 'Card Spacing (or number of copies)'}}
         inputProps={{placeholder: '1', value: cardCopiesState}}  />
 
-      <TextInputComponent
-        labelProps={{text: 'Sheet Rows'}}
-        inputProps={{placeholder: '1', value: sheetRowsState}}  />
+      <div className="flex">
+        <div className="flex-1">
+          <TextInputComponent
+            showBorder={true} 
+            labelProps={{text: 'Sheet Rows'}}
+            inputProps={{placeholder: '1', value: sheetRowsState}}  />
+        </div>
 
-      <TextInputComponent
-        labelProps={{text: 'Sheet Columns'}}
-        inputProps={{placeholder: '1', value: sheetColumnsState}}  />
+        <div className="flex-1">
+          <TextInputComponent
+            showBorder={true} 
+            labelProps={{text: 'Sheet Columns'}}
+            inputProps={{placeholder: '1', value: sheetColumnsState}}  />
+        </div>
+      </div>
 
       Page number is {cardSortState[0].currentSheetNumber}<br />
       Placement in sheet is {cardSortState[0].cardPlacementInSheet}

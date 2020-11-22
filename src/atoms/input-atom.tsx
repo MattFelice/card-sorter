@@ -10,7 +10,7 @@ export interface InputProps {
 }
 
 export const InputAtom = (props: InputProps) => {
-    return <input 
+    return <input className="w-full p-2 border-b-2 border-indigo-300 focus:outline-none focus:border-blue-400"
         placeholder={props.placeholder} 
         value={props.value ? props.value[0] : ''} 
         onChange={onChangeSet(props)} 

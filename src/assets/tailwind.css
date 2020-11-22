@@ -3,3 +3,9 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@layer components {
+    .thin-border {
+        @apply rounded-md border-gray-200 border-2;
+    }
+}
