@@ -1,9 +1,17 @@
 export interface CardSortInterface {
-    cardPlacement: number;
-    sheetSize: number;
-    currentSheetNumber: number;
-    lastIndexOnSheet: number;
-    cardPlacementInSheet: number;
+    sheetSize: string | number,
+    cardPlacement: string | number,
+    cardPlacementInSheet: string | number,
+    currentSheetNumber: string | number,
+    lastIndexOnSheet: string | number
 }
+export interface CardSortNumberInterface extends CardSortInterface {
+    sheetSize: number,
+    cardPlacement: number,
+    cardPlacementInSheet: number,
+    currentSheetNumber: number,
+    lastIndexOnSheet: number
+}
+
 
 export default CardSortInterface;

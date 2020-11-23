@@ -1,27 +1,46 @@
 //import logo from './logo.svg';
-import React from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import './assets/main.css';
+import { SheetComponent } from './components/sheet-component';
 import { TextInputComponent } from './components/text-input-component';
 import cardSort from './functions/card-sort';
+import { CardInputInterface } from './interfaces/card-input-interface';
 import { CardSortInterface } from './interfaces/card-sort-interface';
 
 function App() {
-  let cardNumberState = React.useState('');
-  let cardCopiesState = React.useState('');
-  let sheetRowsState = React.useState('');
-  let sheetColumnsState = React.useState('');
 
-  let cardSortState = React.useState<CardSortInterface>({
-    cardPlacement: 1,
-    sheetSize: 1, 
-    currentSheetNumber: 1, 
-    lastIndexOnSheet: 1,
-    cardPlacementInSheet: 1
+  const [cardInputs, setCardInputs] = useState((): CardInputInterface => {
+    const localCardInputs = localStorage.getItem('cardInputs');
+
+    if(localCardInputs) return JSON.parse(localCardInputs) as CardInputInterface;
+
+    return {
+      cardNumber: '',
+      cardSpacing: '',
+      sheetRows: '',
+      sheetColumns: ''
+    };
   });
 
-  React.useEffect(() => {
-    cardSortState[1](cardSort(cardNumberState[0], [sheetColumnsState[0], sheetRowsState[0]], cardCopiesState[0]));
-  }, cardNumberState);
+  const [cardSorted, setCardSorted] = useState((): CardSortInterface => {
+    const localCardInputs = localStorage.getItem('cardSort');
+
+    if(localCardInputs) return JSON.parse(localCardInputs) as CardSortInterface;
+
+    return {
+      sheetSize: '',
+      cardPlacement: '',
+      cardPlacementInSheet: '',
+      currentSheetNumber: '',
+      lastIndexOnSheet: ''
+    };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cardInputs', JSON.stringify(cardInputs));
+    setCardSorted(cardSort(cardInputs));
+    localStorage.setItem('cardSort', JSON.stringify(cardSorted));
+  }, [cardInputs]);
 
   return (
     <div className="App container mx-auto">
@@ -29,31 +48,51 @@ function App() {
       <TextInputComponent
         showBorder={true} 
         labelProps={{text: 'Card Number'}}
-        inputProps={{placeholder: '1', value: cardNumberState}} />
+        inputProps={{
+          placeholder: '1', 
+          useState: [cardInputs, setCardInputs], 
+          modelKey: 'cardNumber', 
+          value: cardInputs.cardNumber 
+        }}
+      />
 
       <TextInputComponent
         showBorder={true} 
-        labelProps={{text: 'Card Spacing (or number of copies)'}}
-        inputProps={{placeholder: '1', value: cardCopiesState}}  />
+        labelProps={{text: 'Card Spacing (or number of copies between cards)'}}
+        inputProps={{
+          placeholder: '1', 
+          useState: [cardInputs, setCardInputs], 
+          modelKey: 'cardSpacing', 
+          value: cardInputs.cardSpacing
+        }}
+      />
 
-      <div className="flex">
-        <div className="flex-1">
+      <div className='flex'>
+        <div className='flex-1'>
           <TextInputComponent
             showBorder={true} 
             labelProps={{text: 'Sheet Rows'}}
-            inputProps={{placeholder: '1', value: sheetRowsState}}  />
+            inputProps={{
+              placeholder: '1', 
+              useState: [cardInputs, setCardInputs], 
+              modelKey: 'sheetRows', 
+              value: cardInputs.sheetRows
+            }}
+          />
         </div>
-
-        <div className="flex-1">
+        <div className='flex-1'>
           <TextInputComponent
             showBorder={true} 
             labelProps={{text: 'Sheet Columns'}}
-            inputProps={{placeholder: '1', value: sheetColumnsState}}  />
+            inputProps={{
+              placeholder: '1', 
+              useState: [cardInputs, setCardInputs], 
+              modelKey: 'sheetColumns', 
+              value: cardInputs.sheetColumns
+            }}
+          />
         </div>
       </div>
-
-      Page number is {cardSortState[0].currentSheetNumber}<br />
-      Placement in sheet is {cardSortState[0].cardPlacementInSheet}
     </div>
   );
 }

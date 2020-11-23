@@ -1,19 +1,30 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 const onChangeSet = (props: InputProps) => (e: ChangeEvent<HTMLInputElement>) => {
-    if (props.value) return props.value[1](e.target.value);
+    if (props.useState) {
+        if (props.modelKey) {
+            return props.useState[1]({
+                ...props.useState[0],
+                [props.modelKey]: e.target.value
+            });
+        }
+
+        return props.useState[1](e.target.value);
+    }
     return e;
 }
 export interface InputProps {
     placeholder?: string;
-    value?: [string, React.Dispatch<React.SetStateAction<string>>];
+    useState?: [any, React.Dispatch<React.SetStateAction<any>>];
+    value?: string;
+    modelKey?: string;
 }
 
 export const InputAtom = (props: InputProps) => {
     return <input className="w-full p-2 border-b-2 border-indigo-300 focus:outline-none focus:border-blue-400"
-        placeholder={props.placeholder} 
-        value={props.value ? props.value[0] : ''} 
-        onChange={onChangeSet(props)} 
+        onChange={onChangeSet(props)}
+        value={props.value}
+        placeholder={props.placeholder}
     />;
 }
 
