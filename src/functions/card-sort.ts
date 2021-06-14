@@ -1,3 +1,4 @@
+import React, { ReactElement } from "react";
 import { CardInputInterface, CardInputInterfaceNumbers } from "../interfaces/card-input-interface";
 import { CardSortInterface } from "../interfaces/card-sort-interface";
 
@@ -23,12 +24,35 @@ export const cardSort = (cardInfo: CardInputInterface): CardSortInterface => {
     if(cardPlacement <= sheetSize) cardPlacementInSheet = cardPlacement;
     else if(cardPlacementInSheet === 0) cardPlacementInSheet = lastIndexOnSheet;
 
+    const onBack = currentSheetNumber % 2 == 0 ? true: false;
+    let pageMap: string = '';
+    let countTotal = 0;
+
+    if (sheetSize > 1) {
+        for (let row = 0; row < cardInfoNumbers.sheetRows; row++) {
+            pageMap += '<div class="flex card-row justify-center items-center">';
+            for (let column = 0; column < cardInfoNumbers.sheetColumns; column++) {
+                countTotal++;
+                const sheetIndex = countTotal;
+                if ( sheetIndex >= cardPlacementInSheet && sheetIndex < cardPlacementInSheet + cardInfoNumbers.cardSpacing) {
+                    pageMap += '<div class="flex-1 items-center max-w-xs py-40 rounded-md mx-3 my-1 bg-yellow-300 inline-block text-center">' + cardInfoNumbers.cardNumber + '</div>';
+                }else{
+                    const cardNumber = Math.ceil((currentSheetNumber * sheetSize - sheetSize + countTotal) / cardInfoNumbers.cardSpacing);
+                    pageMap += '<div class="flex-1 items-center max-w-xs py-40 rounded-md mx-3 my-1 bg-blue-400 inline-block text-center">' + cardNumber + '</div>';
+                }
+            }
+            pageMap += '</div>';
+        }
+    }
+
     return {
-        cardPlacement,
-        sheetSize, 
-        currentSheetNumber, 
-        lastIndexOnSheet, 
-        cardPlacementInSheet
+        cardPlacement: cardPlacement ? cardPlacement : '',
+        sheetSize: sheetSize ? sheetSize : '', 
+        currentSheetNumber: currentSheetNumber ? currentSheetNumber : '',
+        lastIndexOnSheet: lastIndexOnSheet !== null ? lastIndexOnSheet : '', 
+        cardPlacementInSheet: cardPlacementInSheet ? cardPlacementInSheet : '',
+        onBack,
+        pageMap: {__html: pageMap}
     };
 }
 

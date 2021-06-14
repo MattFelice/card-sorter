@@ -23,23 +23,20 @@ function App() {
   });
 
   const [cardSorted, setCardSorted] = useState((): CardSortInterface => {
-    const localCardInputs = localStorage.getItem('cardSort');
-
-    if(localCardInputs) return JSON.parse(localCardInputs) as CardSortInterface;
-
     return {
       sheetSize: '',
       cardPlacement: '',
       cardPlacementInSheet: '',
       currentSheetNumber: '',
-      lastIndexOnSheet: ''
+      lastIndexOnSheet: '',
+      onBack: false,
+      pageMap: {__html: ''}
     };
   });
 
   useEffect(() => {
     localStorage.setItem('cardInputs', JSON.stringify(cardInputs));
     setCardSorted(cardSort(cardInputs));
-    localStorage.setItem('cardSort', JSON.stringify(cardSorted));
   }, [cardInputs]);
 
   return (
@@ -92,6 +89,13 @@ function App() {
             }}
           />
         </div>
+      </div>
+      {SheetComponent({cardInputs: cardInputs, cardSorted: cardSorted})}
+      <div className='m-3 p-4 thin-border'>
+        <span className="text-lg font-bold">Page Number:</span> {cardSorted.currentSheetNumber}<br />
+        <span className="text-lg font-bold">Card Placement in Sheet:</span> {cardSorted.cardPlacementInSheet}<br />
+        <span className="text-lg font-bold">Back Sheet:</span> {cardSorted.onBack ? 'yes' : 'no'}<br />
+        <div dangerouslySetInnerHTML={cardSorted.pageMap}></div>
       </div>
     </div>
   );

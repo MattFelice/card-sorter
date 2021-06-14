@@ -21,7 +21,7 @@ export interface InputProps {
 }
 
 export const InputAtom = (props: InputProps) => {
-    return <input className="w-full p-2 border-b-2 border-indigo-300 focus:outline-none focus:border-blue-400"
+    return <input className="w-full p-2 border-b-2 border-gray-300 focus:outline-none focus:border-blue-400"
         onChange={onChangeSet(props)}
         value={props.value}
         placeholder={props.placeholder}
